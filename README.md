@@ -1,4 +1,4 @@
-# Micelial Suite
+# Mycelial Suite
 A lightweight, self-hosted web application running on a **Raspberry Pi**, providing a suite of simple household tools — including **shopping list management and thermal-printer support**.
 
 This project uses:

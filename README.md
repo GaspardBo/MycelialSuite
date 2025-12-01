@@ -6,3 +6,10 @@ This project uses:
 - **Flask** as the web framework  
 - **Nginx** as a reverse proxy
 - A **USB ESC/POS thermal printer** controlled through Python
+
+Connect at http://192.168.0.204/
+
+after making changes reload with:
+```bash
+sudo systemctl restart mycelialsuite
+```

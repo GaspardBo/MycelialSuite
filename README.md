@@ -13,3 +13,8 @@ after making changes reload with:
 ```bash
 sudo systemctl restart mycelialsuite
 ```
+
+Secret key for flash must be set as an environment variable using:
+```bash
+export FLASK_SECRET_KEY="your-very-long-random-string"
+```

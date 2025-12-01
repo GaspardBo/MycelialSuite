@@ -1,20 +1,21 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask
+from blueprints.home.routes import home_bp
+from blueprints.print.routes import print_bp
+import os
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+    # Register your blueprints
+    app.register_blueprint(home_bp)
+    app.register_blueprint(print_bp)
 
-@app.route("/status")
-def status():
-    return {"status": "ok", "message": "Flask is running on the Pi"}
+    return app
 
-# Example route you'll customize later
-@app.route("/shopping")
-def shopping():
-    items = ["Milk", "Bread", "Eggs"]
-    return render_template("shopping.html", items=items)
+# Gunicorn looks for a variable named "app"
+app = create_app()
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-key")
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    # For development only (not used with gunicorn)
+    app.run(host="0.0.0.0", port=5000, debug=True)

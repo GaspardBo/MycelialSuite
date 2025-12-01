@@ -5,6 +5,4 @@ This project uses:
 
 - **Flask** as the web framework  
 - **Nginx** as a reverse proxy
-- A **USB ESC/POS thermal printer** controlled through Python  
-
-test
+- A **USB ESC/POS thermal printer** controlled through Python

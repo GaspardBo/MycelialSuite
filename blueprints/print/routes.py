@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-import printer
+from PIL import Image
+import print.printer, io
 
 print_bp = Blueprint(
     "print",
@@ -20,3 +21,23 @@ def run_test_print():
     except Exception as e:
         flash(f"Print failed: {e}", "error")
     return redirect(url_for("print.print_index"))
+
+@print_bp.route("/upload", methods=["POST"])
+def upload_and_print():
+    file = request.files.get("image")
+
+    if not file:
+        flash("No file uploaded!")
+        return redirect(request.url)
+
+    # Open image using PIL
+    image = Image.open(file.stream)
+
+    # Call your printer script
+    try:
+        printer.print_image(image)
+        flash("Image sent to printer!")
+    except Exception as e:
+        flash(f"Printing failed: {e}")
+
+    return redirect("/print")

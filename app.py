@@ -10,6 +10,9 @@ def create_app():
     app.register_blueprint(home_bp)
     app.register_blueprint(print_bp)
 
+    # Set maximum upload size to 32 MB
+    app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
+
     return app
 
 # Gunicorn looks for a variable named "app"

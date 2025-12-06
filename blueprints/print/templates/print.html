@@ -11,24 +11,25 @@
         <button type="submit">Test Print</button>
     </form>
 
-    <h1>Images</h1>
-
-    <form action="{{ url_for('print.upload_and_print') }}"
-          method="POST"
-          enctype="multipart/form-data">
-        
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Print Image</button>
-    </form>
+    
+    <h1>Print an Image</h1>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul>
-        {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endwith %}
+
+    <form action="{{ url_for('print.print_index') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Print</button>
+    </form>
+
 </body>
 </html>

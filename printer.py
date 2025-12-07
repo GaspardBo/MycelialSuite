@@ -1,6 +1,6 @@
 import usb.core
 import usb.util
-from PIL import Image
+from PIL import Image, ImageOps
 from multiprocessing import Process, Queue
 import multiprocessing
 import os
@@ -15,6 +15,9 @@ PRODUCT_ID = 0x0289
 INIT = b'\x1b\x40'
 TEST_TXT = b'Love from Throbbert <3\n'
 CUT  = b'\x1d\x56\x00'
+
+# Image Chunk Height in rows
+CHUNK_HEIGHT = 24
 
 # --------------------------
 #  PRINT QUEUE
@@ -52,43 +55,42 @@ def get_printer_endpoint():
 # --------------------------
 # IMAGE HELPERS
 # --------------------------
-def image_to_escpos_bytes(img: Image.Image):
-    max_width=384
 
-    # Convert to grayscale first
+def image_to_escpos_chunks(img: Image.Image, max_width=384, chunk_height=24):
+    # Ensure image rotation is correct
+    img = ImageOps.exif_transpose(img)
+
+    # Convert to grayscale and dither
     img = img.convert("L")
-
-    # Resize to printer width
     w_percent = max_width / float(img.size[0])
     new_height = int(img.size[1] * w_percent)
     img = img.resize((max_width, new_height), Image.LANCZOS)
-
-    # Apply Floyd–Steinberg dithering → 1-bit image
     img = img.convert("1", dither=Image.FLOYDSTEINBERG)
 
     width_bytes = max_width // 8
-    height = img.height
-
     pixels = img.load()
 
-    raster = bytearray()
+    # Process in chunks
+    for y0 in range(0, img.height, chunk_height):
+        h = min(chunk_height, img.height - y0)
 
-    # ESC/POS Raster Format: GS v 0
-    raster += b'\x1d\x76\x30\x00'
-    raster += bytes([width_bytes & 0xFF, (width_bytes >> 8) & 0xFF])
-    raster += bytes([height & 0xFF, (height >> 8) & 0xFF])
+        # ESC/POS raster header
+        chunk = bytearray()
+        chunk += b'\x1d\x76\x30\x00'
+        chunk += bytes([width_bytes & 0xFF, (width_bytes >> 8) & 0xFF])
+        chunk += bytes([h & 0xFF, (h >> 8) & 0xFF])
 
-    # Pack 8 pixels per byte
-    for y in range(height):
-        for x in range(width_bytes):
-            byte = 0
-            for bit in range(8):
-                pixel = pixels[x * 8 + bit, y]
-                if pixel == 0:  # black
-                    byte |= 1 << (7 - bit)
-            raster.append(byte)
+        # Pack rows
+        for y in range(y0, y0 + h):
+            for x in range(width_bytes):
+                byte = 0
+                for bit in range(8):
+                    px = pixels[x * 8 + bit, y]
+                    if px == 0:  # black pixel
+                        byte |= 1 << (7 - bit)
+                chunk.append(byte)
 
-    return bytes(raster)
+        yield bytes(chunk)
 
 # --------------------------
 # PRINT JOB FUNCTIONS
@@ -129,9 +131,10 @@ def printer_worker(q: Queue):
                 ep.write(INIT)
                 
                 img = job["image"]
-                raster = image_to_escpos_bytes(img)
+                
+                for raster_chunk in image_to_escpos_chunks(img):
+                    ep.write(raster_chunk)
 
-                ep.write(raster)
                 ep.write(b"\n")
                 ep.write(CUT)
 

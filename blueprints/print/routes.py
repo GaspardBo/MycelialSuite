@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .queue_system import print_queue   # <- your queue file
-from .printer import test_print         # <- if you still use test print
+from printer import test_print, print_image
 from PIL import Image
 import io
 
@@ -46,7 +45,7 @@ def upload_and_print():
         image = Image.open(io.BytesIO(image_bytes))
 
         # Add image to the queue
-        print_queue.put(image)
+        print_image(image)
 
         flash("Image added to print queue!", "success")
 

@@ -1,10 +1,14 @@
 from flask import Flask
 from blueprints.home.routes import home_bp
 from blueprints.print.routes import print_bp
-import os
+from printer import start_worker, stop_worker
+import os, atexit
 
 def create_app():
     app = Flask(__name__)
+    atexit.register(stop_worker)
+
+    start_worker()
 
     # Register your blueprints
     app.register_blueprint(home_bp)

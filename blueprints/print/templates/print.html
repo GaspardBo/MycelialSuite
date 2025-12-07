@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Print</title>
+    <style>
+        #preview {
+            display: block;
+            margin-top: 10px;
+            max-width: 300px;
+            max-height: 300px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-    <h1>Print Tools</h1>
-
-    <form action="{{ url_for('print.run_test_print') }}" method="post">
-        <button type="submit">Test Print</button>
-    </form>
-
-    
-    <h1>Print an Image</h1>
-
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul>
@@ -26,10 +26,40 @@
         {% endif %}
     {% endwith %}
 
-    <form action="{{ url_for('print.print_index') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*">
+    <h1>Print Tools</h1>
+
+    <form action="{{ url_for('print.run_test_print') }}" method="POST">
+        <button type="submit">Test Print</button>
+    </form>
+
+    
+    <h1>Print an Image</h1>
+
+    <form action="{{ url_for('print.upload_and_print') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" accept="image/*">
+        <img id="preview" src="" alt="Image Preview" style="display:none;">
         <button type="submit">Print</button>
     </form>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 </html>

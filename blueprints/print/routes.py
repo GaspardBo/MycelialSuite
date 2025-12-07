@@ -27,7 +27,7 @@ def run_test_print():
     return redirect(url_for("print.print_index"))
 
 
-@print_bp.route("/", methods=["POST"])
+@print_bp.route("/upload_and_print", methods=["POST"])
 def upload_and_print():
     if "image" not in request.files:
         flash("No image uploaded.", "error")

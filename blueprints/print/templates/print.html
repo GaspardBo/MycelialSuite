@@ -14,17 +14,17 @@
     </style>
 </head>
 <body>
+    <ul id="flashMessages">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
-                        {{ message }}
-                    </li>
-                {% endfor %}
-            </ul>
+            {% for category, message in messages %}
+                <li style="color: {% if category == 'error' %}red{% else %}green{% endif %};">
+                    {{ message }}
+                </li>
+            {% endfor %}
         {% endif %}
     {% endwith %}
+</ul>
 
     <h1>Print Tools</h1>
 
@@ -32,34 +32,34 @@
         <button type="submit">Test Print</button>
     </form>
 
-    
     <h1>Print an Image</h1>
 
-    <form action="{{ url_for('print.upload_and_print') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" id="imageInput" accept="image/*">
-        <img id="preview" src="" alt="Image Preview" style="display:none;">
-        <button type="submit">Print</button>
-    </form>
+    <!-- Notice: NOT submitting a form the usual way -->
+    <!-- The JS will send the edited version via fetch() -->
+    
+    <input type="file" id="imageInput" accept="image/*">
 
+    <canvas id="previewCanvas"
+            style="display:block; max-width:300px; max-height:300px; border:1px solid #ccc;">
+    </canvas>
+
+    <label>Brightness:
+        <input type="range" id="brightness" min="-100" max="100" value="0">
+    </label>
+    <br>
+
+    <label>Contrast:
+        <input type="range" id="contrast" min="-100" max="100" value="0">
+    </label>
+
+    <button id="rotateButton">Rotate 90°</button>
+    <button id="restoreButton">Restore</button>
+    <!-- This button is outside form so JS fully controls upload/print -->
+    <button id="printButton">Print</button>
     <script>
-        const imageInput = document.getElementById('imageInput');
-        const preview = document.getElementById('preview');
-
-        imageInput.addEventListener('change', () => {
-            const file = imageInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '';
-                preview.style.display = 'none';
-            }
-        });
+        const UPLOAD_URL = "{{ url_for('print.upload_and_print') }}";
     </script>
+    <script src="{{ url_for('static', filename='js/image_tool.js') }}"></script>
 
 </body>
 </html>

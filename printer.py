@@ -99,6 +99,7 @@ def print_text(text: str):
     print_queue.put({"type": "text", "data": text})
 
 def print_image(image: Image.Image):
+    #print("[DEBUG] Queuing image for print")
     print_queue.put({"type": "image", "image": image})
 
 def test_print():

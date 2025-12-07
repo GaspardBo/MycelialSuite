@@ -7,7 +7,7 @@ This project uses:
 - **Nginx** as a reverse proxy
 - A **USB ESC/POS thermal printer** controlled through Python
 
-Connect at http://192.168.0.204/
+Connect at http://192.168.0.205/
 
 after making changes reload with:
 ```bash

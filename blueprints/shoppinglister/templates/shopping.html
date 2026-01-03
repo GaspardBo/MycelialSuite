@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <link
+    href="https://unpkg.com/tabulator-tables@6.2.0/dist/css/tabulator.min.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    body { padding: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Editable Table</h2>
+
+<input
+  type="text"
+  id="search"
+  placeholder="Search..."
+  style="margin-bottom:10px; padding:6px;"
+>
+
+<div id="table"></div>
+
+<script src="https://unpkg.com/tabulator-tables@6.2.0/dist/js/tabulator.min.js"></script>
+
+<script>
+  const tableData = {{ data | tojson }};
+
+  const table = new Tabulator("#table", {
+    data: tableData,
+    layout: "fitColumns",
+    reactiveData: true,
+
+    columns: [
+      { title: "Name", field: "name", editor: "input" },
+      { title: "Age", field: "age", editor: "number" },
+      { title: "City", field: "city", editor: "input" },
+    ],
+  });
+
+  // Global search
+  document.getElementById("search").addEventListener("input", (e) => {
+    const value = e.target.value;
+    table.setFilter((row) => {
+      return Object.values(row).some(v =>
+        String(v).toLowerCase().includes(value.toLowerCase())
+      );
+    });
+  });
+</script>
+
+<button onclick="save()">Save Changes</button>
+
+<script>
+function save() {
+  fetch("/save", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(table.getData())
+  });
+}
+</script>
+
+</body>
+</html>

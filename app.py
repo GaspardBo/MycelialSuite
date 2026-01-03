@@ -1,6 +1,7 @@
 from flask import Flask
 from blueprints.home.routes import home_bp
 from blueprints.print.routes import print_bp
+from blueprints.shoppinglister.routes import shopping_bp
 from printer import start_worker, stop_worker
 import os, atexit
 
@@ -13,6 +14,7 @@ def create_app():
     # Register your blueprints
     app.register_blueprint(home_bp)
     app.register_blueprint(print_bp)
+    app.register_blueprint(shopping_bp)
 
     # Set maximum upload size to 32 MB
     app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB

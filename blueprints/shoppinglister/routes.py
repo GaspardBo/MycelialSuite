@@ -12,15 +12,7 @@ shopping_bp = Blueprint(
 
 @shopping_bp.route("/", methods=["GET"])
 def shopping_index():
-    #load dataframe
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(base_dir, "data", "recipes.csv")
-    df = pd.read_csv(csv_path)
-
-    return render_template(
-        "shopping.html",
-       data=df.to_dict(orient="records")
-    )
+    return render_template("shopping.html")
 
 @shopping_bp.route("/save", methods=["POST"])
 def save():
@@ -28,5 +20,11 @@ def save():
     pd.DataFrame(data).to_csv("data.csv", index=False)
     return {"status": "ok"}
 
+@shopping_bp.route("/recipes", methods=["GET"])
+def get_recipes():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(base_dir, "data", "recipes.csv")
 
+    df = pd.read_csv(csv_path)
+    return df.to_dict(orient="records")
 

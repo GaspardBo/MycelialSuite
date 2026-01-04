@@ -13,19 +13,13 @@ shopping_bp = Blueprint(
 @shopping_bp.route("/", methods=["GET"])
 def shopping_index():
     #load dataframe
-    app = Flask(__name__)
-    csv_path = os.path.join(app.static_folder, "recipes.csv")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(base_dir, "data", "recipes.csv")
     df = pd.read_csv(csv_path)
-
-    # Convert DataFrame to HTML
-    table_html = df.to_html(
-        classes="table table-striped",
-        index=False
-    )
 
     return render_template(
         "shopping.html",
-       data=recipes_df.to_dict(orient="records")
+       data=df.to_dict(orient="records")
     )
 
 @shopping_bp.route("/save", methods=["POST"])
@@ -33,5 +27,6 @@ def save():
     data = request.json
     pd.DataFrame(data).to_csv("data.csv", index=False)
     return {"status": "ok"}
+
 
 

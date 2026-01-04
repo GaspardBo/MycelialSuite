@@ -1,0 +1,11 @@
+id,name,category,ingredients,prep_time_minutes,servings
+1,Spaghetti Bolognese,Dinner,"spaghetti;ground beef;tomato sauce;onion;garlic;olive oil",30,4
+2,Chicken Stir Fry,Dinner,"chicken breast;bell pepper;broccoli;soy sauce;ginger;garlic",20,3
+3,Avocado Toast,Breakfast,"bread;avocado;lemon juice;olive oil;salt;pepper",10,2
+4,Pancakes,Breakfast,"flour;milk;egg;baking powder;sugar;butter",15,4
+5,Greek Salad,Lunch,"cucumber;tomato;red onion;feta cheese;olives;olive oil",10,2
+6,Grilled Cheese Sandwich,Lunch,"bread;cheddar cheese;butter",10,1
+7,Vegetable Soup,Dinner,"carrot;celery;potato;onion;vegetable broth;thyme",40,4
+8,Chocolate Chip Cookies,Dessert,"flour;butter;sugar;egg;chocolate chips;vanilla",25,24
+9,Smoothie,Breakfast,"banana;strawberries;yogurt;honey;milk",5,1
+10,Tacos,Dinner,"tortillas;ground beef;lettuce;cheddar cheese;tomato;sour cream",20,4

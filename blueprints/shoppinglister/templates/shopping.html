@@ -5,13 +5,53 @@
 </head>
 <body>
 
-<h1>Recipes</h1>
-<ul id="recipe-list"></ul>
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 50px;
+    gap: 10px;
+    padding: 10px;
+  }
 
-<h2>Shopping List</h2>
-<div id="shopping-table"></div>
+  .shopping-list {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
 
-<button id="save-btn">Save</button>
+  .recipe-list {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .menu {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    text-align: center;
+    padding: 10px;
+  }
+</style>
+
+<div class = "grid-container">
+  <div class="shopping-list">
+    <h1>Shopping List</h1>
+    <div id="shopping-table"></div>
+  </div>
+
+  <div class="recipe-list">
+    <h1>Recipes</h1>
+    <ul id="recipe-list"></ul>
+  </div>
+
+  <div class="menu">
+    <button id="save-btn">Save</button>
+  </div>
+
+</div>
 
 <link rel="stylesheet"
       href="{{ url_for('static', filename='css/tabulator.min.css') }}">

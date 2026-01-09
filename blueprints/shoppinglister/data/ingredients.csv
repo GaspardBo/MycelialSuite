@@ -1,0 +1,6 @@
+ingredient_id,ingredient_name, cost_per_unit, unit
+1,spaghetti, 0.01, pounds
+2,ground beef, 0.005, pounds
+3,tomato sauce, 0.02, cans
+4,onion, 0.01, pounds
+5,garlic, 0.03, cloves

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, Flask
+from flask import Blueprint, render_template, request, Flask, jsonify
 import pandas as pd
 import os
 
@@ -20,11 +20,17 @@ def save():
     pd.DataFrame(data).to_csv("data.csv", index=False)
     return {"status": "ok"}
 
-@shopping_bp.route("/recipes", methods=["GET"])
-def get_recipes():
+@shopping_bp.route("/load", methods=["GET"])
+def get_data():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(base_dir, "data", "recipes.csv")
 
-    df = pd.read_csv(csv_path)
-    return df.to_dict(orient="records")
+    recipes = pd.read_csv(os.path.join(base_dir, "data", "recipes.csv"))
+    ingredients = pd.read_csv(os.path.join(base_dir, "data", "ingredients.csv"))
+    recipe_ingredients = pd.read_csv(os.path.join(base_dir, "data", "recipe_ingredients.csv"))
+
+    return jsonify({
+        "recipes": recipes.to_dict(orient="records"),
+        "ingredients": ingredients.to_dict(orient="records"),
+        "recipe_ingredients": recipe_ingredients.to_dict(orient="records")
+    })
 

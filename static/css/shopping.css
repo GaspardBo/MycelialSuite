@@ -1,0 +1,61 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.grid-container {
+    display: grid;
+    height: 100vh;
+
+    grid-template-areas:
+        "shopping recipe ingredients"
+        "shopping recipe ingredients"
+        "menu menu menu";
+
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr auto;
+
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+.shopping-list {
+    grid-area: shopping;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.recipe-list {
+    grid-area: recipe;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.ingredients-list {
+    grid-area: ingredients;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.menu {
+    grid-area: menu;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.shopping-list,
+.recipe-list,
+.ingredients-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* IMPORTANT for Tabulator scrolling */
+}
+
+#shopping-table,
+#recipes-table,
+#ingredients-table {
+  flex: 1;
+}

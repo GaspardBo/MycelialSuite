@@ -2,47 +2,26 @@
 <html>
 <head>
   <title>Shopping List</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/shopping.css') }}">
 </head>
 <body>
 
-<style>
-  .grid-container {
-    display: grid;
-    grid-template-areas: "shopping recipe menu"
-                         "shopping recipe menu";
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .shopping-list {
-    grid-area: shopping;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-
-  .recipe-list {
-    grid-area: recipe;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-
-  .menu {
-    grid-area: menu;
-    text-align: center;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-</style>
-
 <div class = "grid-container">
   <div class="shopping-list">
-    <h1>Shopping List</h1>
+    <h3>Shopping List</h3>
     <div id="shopping-table"></div>
   </div>
 
   <div class="recipe-list">
-    <h1>Recipes</h1>
-    <ul id="recipe-list"></ul>
+    <h3>Recipes</h3>
+    <div id="recipes-table"></div>
+  </div>
+
+  <div class="ingredients-list">
+    <h3>Ingredients</h3>
+    <div id="ingredients-table"></div>
   </div>
 
   <div class="menu">

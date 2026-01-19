@@ -9,7 +9,7 @@ html, body {
 
     grid-template-areas:
         "shopping recipe ingredients"
-        "shopping recipe ingredients"
+        "shopping selected-recipes ingredients"
         "menu menu menu";
 
     grid-template-columns: 1fr 1fr 1fr;
@@ -29,6 +29,12 @@ html, body {
 
 .recipe-list {
     grid-area: recipe;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.selected-recipes-list {
+    grid-area: selected-recipes;
     border: 1px solid #ccc;
     padding: 10px;
 }

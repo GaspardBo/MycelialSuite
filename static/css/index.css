@@ -1,0 +1,10 @@
+body {
+    background-image: url("../images/bg.png"); /* relative to CSS file */
+    background-size: cover;      /* stretch to fill */
+    background-position: center; /* center the image */
+    background-repeat: no-repeat;
+    height: 100vh;               /* full viewport height */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}

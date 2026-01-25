@@ -1,4 +1,5 @@
-id,name,category,prep_time_minutes,servings
-1,Spaghetti Bolognese,Dinner,30,4
-2,Chicken Stir Fry,Dinner,20,3
-3,Vegetable Soup,Lunch,45,6
+id,name,prep_time_minutes,servings
+1,Spaghetti Bolognese,30,4
+2,Chicken Stir Fry,20,3
+3,Vegetable Soup,45,6
+4,Fishcakes,0,1
